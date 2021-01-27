@@ -56,6 +56,11 @@ namespace TestORMCodeFirst.DAL
             contexte.Etudiants.RemoveRange(contexte.Etudiants);
             contexte.SaveChanges();
         }
+        public void ModifierEtudiant(Etudiant etudiant)
+        {
+            contexte.Etudiants.Update(etudiant);
+            contexte.SaveChanges();
+        }
 
         public Etudiant TrouverEtudiantParNom(string nomEtudiant)
         {
@@ -82,5 +87,22 @@ namespace TestORMCodeFirst.DAL
             return contexte.Etudiants.ToList();
         }
 
+        public int NombreEtudiants()
+        {
+            return contexte.Etudiants.Count();
+        }
+
+        public int? NombreInscriptionCours(short etudiantId, string codeSession)
+        {
+            Etudiant etud = contexte.Etudiants.Find(etudiantId);
+            if(etud != null)
+            {
+                return etud.Cours.Where(insc => insc.CodeSession == codeSession).Count();
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
